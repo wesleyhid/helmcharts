@@ -1,0 +1,66 @@
+# Default values for itvw-db-helm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+replicaCount: 1
+
+# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+image:
+  repository: postgres
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+# This is to override the chart name.
+nameOverride: "db"
+fullnameOverride: "itvw-db"
+environment: dev
+
+# This is for setting Kubernetes Annotations to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+podAnnotations: {}
+# This is for setting Kubernetes Labels to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+
+
+# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  type: ClusterIP
+  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+  port: 5432
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1024Mi
+  requests:
+    cpu: 1000m
+    memory: 1024Mi
+
+volumes: 
+  - name: volume-db
+    persistentVolumeClaim:
+      claimName: pvc-users-service
+
+volumeMounts: 
+  - name: volume-db
+    mountPath: "/var/lib/postgresql/data/pgdata"
+
+env:
+  - name: POSTGRES_USER
+    value: postgres
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: itvw-users-service
+        key: dbPassword
+  - name: POSTGRES_HOST_AUTH_METHOD
+    value: trust
+  - name: PGDATA
+    value: /var/lib/postgresql/data/pgdata
+  - name: POSTGRES_DB
+    value: itvw
