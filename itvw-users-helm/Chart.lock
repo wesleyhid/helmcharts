@@ -1,0 +1,6 @@
+dependencies:
+- name: itvw-db-helm
+  repository: https://raw.githubusercontent.com/wesleyhid/helmcharts/main
+  version: 0.1.0
+digest: sha256:572813de91b689e4d6b210e469b40ef8bd6b816df2af30be68ba5841071effb0
+generated: "2025-03-14T17:45:29.57509-03:00"

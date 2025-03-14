@@ -25,7 +25,7 @@ appVersion: "1.16.0"
 
 dependencies:
   - name: itvw-db-helm
-    repository: https://github.com/wesleyhid/helmcharts
+    repository: https://raw.githubusercontent.com/wesleyhid/helmcharts/main
     version: 0.1.0
 
 maintainers:
